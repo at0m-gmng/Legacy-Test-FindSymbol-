@@ -10,9 +10,11 @@ public class Cell : MonoBehaviour
     public float width;
 
     RectTransform rt;
+    //Button bt;
     private void Start()
     {
         rt = GetComponent<RectTransform>();
+        //bt = GetComponent<Button>();
         rt.sizeDelta = new Vector2(width, width);
     }
 

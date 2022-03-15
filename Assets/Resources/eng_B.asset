@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: eng_B
   m_EditorClassIdentifier: 
   _name: B
-  _spriteIcon: {fileID: 21300000, guid: 64c594678839bca409413c9d073448b0, type: 3}
+  _spriteIcon: {fileID: 7783457984840754399, guid: 07c9258f03cd063499ed4ede124ffb1a,
+    type: 3}
