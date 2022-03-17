@@ -664,6 +664,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textSymbol: {fileID: 447122506}
   generationField: {fileID: 102713972}
+  findSymbolsList: []
+  fieldSymbolsList: []
 --- !u!4 &1986286053
 Transform:
   m_ObjectHideFlags: 0
