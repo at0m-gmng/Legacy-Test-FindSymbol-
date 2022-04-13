@@ -6,21 +6,20 @@ using TMPro;
 
 public class textAnimation : MonoBehaviour
 {
-    private Sequence sequence; // переменная для очереди
     [SerializeField] private float fadeTime; // время появления
-    private TextMeshProUGUI tm;
+    private TextMeshProUGUI textWithData; // текстовое поле с данными
 
     private void Awake()
     {
-        tm = GetComponentInChildren<TextMeshProUGUI>();
+        textWithData = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {
-        fadeIn(gameObject);
+        fadeIn();
     }
-    private void fadeIn(GameObject gameObject)
+    private void fadeIn()
     {
-        tm.DOFade(0, fadeTime).From();
+        textWithData.DOFade(0, fadeTime).From();
     }
 }

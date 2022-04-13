@@ -7,105 +7,108 @@ using TMPro;
 public class gameStateContoller : MonoBehaviour
 {
     [Tooltip("Find symbol on cardDataList")]
-    [SerializeField] private TextMeshProUGUI textSymbol;
+    [SerializeField] private TextMeshProUGUI textSymbol; // текстовое поле для вывода данных
+    [SerializeField] private LevelData levelData; // данные о количестве уровней
+    [SerializeField] private GameObject winEffect; // particle effect
+    [SerializeField] private Field generationField; // игровое поле со сгенерированными ячейками
 
-    //[Tooltip("Список настроек для иконок")]
-    //[SerializeField] private List<CardData> cardDataList;
+    private static bool stateCheck = false; // разрешена ли проверка на выигрышь
+    private string tempSymbol; // текущий выбранный символ для Find "X"
+    private List<string> findSymbolsList = new List<string>(); // хранит список текстовых элементов Find "X" 
+    private List<string> fieldSymbolsList = new List<string>(); // хранит значения элементов на поле
 
-    [SerializeField] private Field generationField;
-    private Cell cell;
-    //private cellAnimation cellAnimation;
-    //private cellAnimation cellAnimation = new cellAnimation();
-    public static bool stateCheck = false;
-    public static bool win = false;
+    public static bool win = false; // переменные для проверки на выигрыш, проигрыш и воспроизведения соответственной анимации
     public static bool lose = false;
-
-    private string tempSymbol;
-    public List<string> findSymbolsList = new List<string>();
-    public List<string> fieldSymbolsList = new List<string>();
+    public bool stopGame = false; // переменная для состояния активности игры
 
     private void Start()
     {
-        generationField.GenerateField();
         textGenerationSymbol();
-        //cellAnimation.stateAnimation("lose");
-        //Debug.Log(cell.rt);
-        //for (int i = 0; i < findSymbolsList.Count; i++)
-        //{
-        //    Debug.Log(findSymbolsList[0]);
-        //}
     }
 
     private void Update()
     {
         if (stateCheck)
         {
-            for (int i = 0; i < findSymbolsList.Count; i++)
+            for (int j = 0; j < fieldSymbolsList.Count; j++)
             {
-                for (int j = 0; j < fieldSymbolsList.Count; j++)
+                if (findSymbolsList[generationField.current_level - 1] == fieldSymbolsList[j])
                 {
-                    //Debug.Log(findSymbolsList[i]);
-                    //Debug.Log(fieldSymbolsList[j]);
-                    if (findSymbolsList[i] == fieldSymbolsList[j])
+                    lose = false;
+                    win = true;
+                    //Debug.Log(findSymbolsList[generationField.current_level - 1] + "WIN!" + " You click: " + fieldSymbolsList[j]);
+
+                    if (generationField.current_level < levelData.level_Count)
                     {
-                        lose = false;
-                        win = true;
-                        Debug.Log("WIN!");
-                    } else
-                    {
-                        win = false;
-                        lose = true;
+                        level_up();
+                        stateCheck = false;
                     }
+                    //Debug.Log(generationField.current_level);
+                }
+                else
+                {
+                    lose = true;
+                    win = false;
+                    //Debug.Log(findSymbolsList[generationField.current_level - 1] + "Lose!" + " You click: " + fieldSymbolsList[j]);
+                }
+                if (generationField.current_level == levelData.level_Count && (win || lose))
+                {
+                    Invoke("StopGame", .65f); // запускаем затемнение экрана только после анимации
+                    //stopGame = true;
+                    if (win)
+                        Instantiate(winEffect, gameObject.transform);
                 }
             }
             stateCheck = false;
         }
     }
 
-    public void LoseOrWin(string name)
-    {
-        int foundS1 = name.IndexOf("(");
-        int foundS2 = name.IndexOf(")");
-        name = name.Remove(foundS1, foundS2 - foundS1 +1);
+    private void StopGame() { stopGame = true; }
 
-        fieldSymbolsList.Add(name);
-        //Debug.Log(fieldSymbolsList[0]);
-        stateCheck = true;
+    private void level_up()
+    {
+        Instantiate(winEffect, gameObject.transform);
+        fieldSymbolsList = new List<string>();
+        generationField.current_level++;
+        generationField.UpdateField();
+        textGenerationSymbol();
         flagsOff();
-        //if(textSymbol.text == name)
-        //Debug.Log(gameObject.textSymbol.text);
-        //for (int i = 0; i < findSymbolsList.Count; i++)
-        //{
-        //Debug.Log(gameStateContoller.findSymbolsList[0]);
-        //break;
-        //}
     }
 
-    public void flagsOff()
+    public void LoseOrWin(string name)
+    {
+        fieldSymbolsList.Add(name);
+        stateCheck = true;
+        flagsOff();
+    }
+
+    private void flagsOff()
     {
         win = false;
         lose = false;
-        Debug.Log("stateCheck: " + stateCheck + " lose: " + lose + " <<==>> win: " + win);
+        //Debug.Log("stateCheck: " + stateCheck + " lose: " + lose + " <<==>> win: " + win);
     }
-
-    //private void checkSymbols()
-    //{
-    //    for (int i = 0; i < findSymbolsList.Count; i++)
-    //    {
-    //        Debug.Log(findSymbolsList[0]);
-    //    }
-    //    for (int i = 0; i < fieldSymbolsList.Count; i++)
-    //    {
-    //        Debug.Log(fieldSymbolsList[0]);
-    //    }
-    //}
 
     private void textGenerationSymbol()
     {
-        tempSymbol = generationField.cardDataList[generationField.randomList[UnityEngine.Random.Range(0, generationField.FieldSize)]].name;
-        textSymbol.text += " " + tempSymbol;
+        tempSymbol = generationField.spriteDataList[generationField.numberSpriteData].name[generationField.randomList[UnityEngine.Random.Range(0, generationField.FieldSize)]];
+        textSymbol.text = "";
+        textSymbol.text += "Find " + tempSymbol;
         findSymbolsList.Add(tempSymbol);
+
+        for (int i = 0; i < findSymbolsList.Count; i++)
+        {
+            for (int j = i+1; j < findSymbolsList.Count; j++)
+            {
+                if (findSymbolsList[j] == findSymbolsList[i])
+                {
+                    // если найден повтор удаляем записанный символ и перевызываем функцию для генерации нового символа
+
+                    //Debug.Log(findSymbolsList[j] + " Содержится!" + " Найден повтор: " + findSymbolsList[i]);
+                    findSymbolsList.RemoveAt(j); 
+                    textGenerationSymbol();
+                }
+            }
+        }
     }
-
-
 }
