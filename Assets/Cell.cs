@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 public class Cell : MonoBehaviour
 {
-    public void Init(spriteData cardData, int value)
+    private SpriteData spriteData; 
+    //public List<spriteData> spriteDataList;
+    public void Init(SpriteData _spriteData, int value)
     {
-        GetComponent<Image>().sprite = cardData.spriteIcon[value];
-        GetComponent<RectTransform>().name = cardData.name[value];
+        spriteData = _spriteData;
+        GetComponent<Image>().sprite = spriteData.spriteIcon[value];
+        GetComponent<RectTransform>().name = spriteData.name[value];
     }
 
     private void OnMouseDown()

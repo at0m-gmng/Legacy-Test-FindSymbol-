@@ -5,9 +5,8 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - textSymbol: {instanceID: 0}
-  - levelData: {fileID: 11400000, guid: 46b7b272d97d082428fec6659758aa0d, type: 2}
-  - winEffect: {fileID: 7763638773993238576, guid: f3a4601f00b31534abd699e5f90eabd2,
-      type: 3}
+  - levelData: {instanceID: 0}
+  - winEffect: {instanceID: 0}
   - generationField: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}

@@ -8,7 +8,7 @@ public class gameStateContoller : MonoBehaviour
 {
     [Tooltip("Find symbol on cardDataList")]
     [SerializeField] private TextMeshProUGUI textSymbol; // текстовое поле для вывода данных
-    [SerializeField] private levelData levelData; // данные о количестве уровней
+    [SerializeField] private LevelData levelData; // данные о количестве уровней
     [SerializeField] private GameObject winEffect; // particle effect
     [SerializeField] private Field generationField; // игровое поле со сгенерированными ячейками
 
@@ -23,7 +23,9 @@ public class gameStateContoller : MonoBehaviour
 
     private void Start()
     {
-        textGenerationSymbol();
+        //generationField = FindObjectOfType<Field>();
+        TextGenerationSymbol();
+        //Debug.Log(generationField);
     }
 
     private void Update()
@@ -40,7 +42,7 @@ public class gameStateContoller : MonoBehaviour
 
                     if (generationField.current_level < levelData.level_Count)
                     {
-                        level_up();
+                        LevelUp();
                         stateCheck = false;
                     }
                     //Debug.Log(generationField.current_level);
@@ -65,31 +67,31 @@ public class gameStateContoller : MonoBehaviour
 
     private void StopGame() { stopGame = true; }
 
-    private void level_up()
+    private void LevelUp()
     {
         Instantiate(winEffect, gameObject.transform);
         fieldSymbolsList = new List<string>();
         generationField.current_level++;
         generationField.UpdateField();
-        textGenerationSymbol();
-        flagsOff();
+        TextGenerationSymbol();
+        FlagsOff();
     }
 
     public void LoseOrWin(string name)
     {
         fieldSymbolsList.Add(name);
         stateCheck = true;
-        flagsOff();
+        FlagsOff();
     }
 
-    private void flagsOff()
+    private void FlagsOff()
     {
         win = false;
         lose = false;
         //Debug.Log("stateCheck: " + stateCheck + " lose: " + lose + " <<==>> win: " + win);
     }
 
-    private void textGenerationSymbol()
+    private void TextGenerationSymbol()
     {
         tempSymbol = generationField.spriteDataList[generationField.numberSpriteData].name[generationField.randomList[UnityEngine.Random.Range(0, generationField.FieldSize)]];
         textSymbol.text = "";
@@ -106,7 +108,7 @@ public class gameStateContoller : MonoBehaviour
 
                     //Debug.Log(findSymbolsList[j] + " Содержится!" + " Найден повтор: " + findSymbolsList[i]);
                     findSymbolsList.RemoveAt(j); 
-                    textGenerationSymbol();
+                    TextGenerationSymbol();
                 }
             }
         }

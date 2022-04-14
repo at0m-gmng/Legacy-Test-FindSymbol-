@@ -176,11 +176,11 @@ MonoBehaviour:
   spriteDataList:
   - {fileID: 11400000, guid: 83ac2db0f76a6de4e843b74369de48f6, type: 2}
   - {fileID: 11400000, guid: ccc7122d8b4937d4b88931a08fc2a872, type: 2}
-  numberSpriteData: 0
+  numberSpriteData: 1
   FieldSize: 6
   cellPref: {fileID: 969124755971596281, guid: d7d35932ceb8a4644877d1b6c0998ef2, type: 3}
   current_level: 1
-  randomList: 
+  randomList: 00000000
 --- !u!114 &102713973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,7 +795,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 519420030}
-        m_MethodName: restart
+        m_MethodName: Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

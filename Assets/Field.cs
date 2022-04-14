@@ -8,14 +8,12 @@ using TMPro;
 
 public class Field : MonoBehaviour
 {
-    [Tooltip("Данные об уровне")]
-    [SerializeField] private levelData levelData; // хранит данные об уровне 
+    public LevelData levelData; // хранит данные об уровне 
 
-    [Tooltip("Список наборов данных")]
-    public List<spriteData> spriteDataList = new List<spriteData>(); // набор данных spriteData для генерации ячеек
+    public List<SpriteData> spriteDataList ; // набор данных spriteData для генерации ячеек
 
     [Tooltip("Текущий набор данных для генерации")]
-    public int numberSpriteData; // текущий выбранный spriteData из spriteDataList
+    public int numberSpriteData = 0; // текущий выбранный spriteData из spriteDataList
 
     [Tooltip("Кол-во объектов на поле")]
     [SerializeField] public int FieldSize; // размерность поля
@@ -30,7 +28,7 @@ public class Field : MonoBehaviour
 
     private GameObject[] field;
     [SerializeField] public int current_level = 1; // текущий уровень
-    public List<int> randomList = new List<int>(); // набор данных для генерации, отсортированный в случайном порядке
+    public List<int> randomList ; // набор данных для генерации, отсортированный в случайном порядке
 
     private void Start()
     {
@@ -38,7 +36,7 @@ public class Field : MonoBehaviour
         CellSize = gameObject.GetComponent<GridLayoutGroup>().cellSize.x;
         Spacing = gameObject.GetComponent<GridLayoutGroup>().spacing.x;
         FieldSize = levelData.cell_count * current_level; // размер поля равен количеству добавляемых ячеек * на уровень
-        randomData();
+        RandomData();
         GenerateField();
     }
 
@@ -47,7 +45,7 @@ public class Field : MonoBehaviour
         //Debug.Log(FieldSize);
         if (field == null)
         {
-            randomWithoutDuplicate();
+            RandomWithoutDuplicate();
             CreateField();
         }
     }
@@ -57,8 +55,12 @@ public class Field : MonoBehaviour
     {
             FieldSize = levelData.cell_count * current_level;
             ClearField(); 
-            randomData();
-            randomWithoutDuplicate();
+            RandomData();
+            RandomWithoutDuplicate();
+
+            Debug.Log(JsonUtility.ToJson(randomList));
+            
+            Debug.Log(randomList);
             CreateField();
     }
 
@@ -83,7 +85,6 @@ public class Field : MonoBehaviour
         //float startY = (fieldWidth / 2) - (CellSize / 2) - Spacing;
 
         var sprite = cellPref.GetComponentInChildren<Cell>();
-
         //заполняем поле и создаём объекты по префабу
         for (int x = 0; x < field.Length; x++)
         {
@@ -103,20 +104,21 @@ public class Field : MonoBehaviour
     }
 
     // выбираем случайный набор данных
-    private int randomData()
+    private int RandomData()
     {
         numberSpriteData = UnityEngine.Random.Range(0, spriteDataList.Count);
 
         return numberSpriteData;
     }
     //распологаем данные в случайном порядке
-    private List<int> randomWithoutDuplicate()
+    private List<int> RandomWithoutDuplicate()
     {
         var rnd = new System.Random();
         randomList = Enumerable.Range(0, spriteDataList[numberSpriteData].spriteIcon.Count).OrderBy(x => rnd.Next()).Take(spriteDataList[numberSpriteData].spriteIcon.Count).ToList();
 
-        //for (int i = 0; i < cardDataList.Count; i++)
-        //    Debug.Log(randomNumbers[i]);
+        //for (int i = 0; i < randomList.Count; i++)
+        //    Debug.Log(randomList[i]);
+
         return randomList;
     }
     

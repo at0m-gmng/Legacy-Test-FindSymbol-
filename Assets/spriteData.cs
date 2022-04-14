@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "spriteData", menuName = "Gameplay/New spriteData")]
-public class spriteData : ScriptableObject
+public class SpriteData : ScriptableObject
 {
     [SerializeField] private List<string> _name = new List<string>();
     [SerializeField] private List<Sprite> _spriteIcon = new List<Sprite>();

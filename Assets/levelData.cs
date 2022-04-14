@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "levelData", menuName = "Gameplay/New levelData")]
-public class levelData : ScriptableObject
+public class LevelData : ScriptableObject
 {
     [SerializeField] private int _level_Count;
     [SerializeField] private int _cell_count;

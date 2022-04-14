@@ -4,9 +4,8 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - levelData: {fileID: 11400000, guid: 46b7b272d97d082428fec6659758aa0d, type: 2}
-  - cellPref: {fileID: 969124755971596281, guid: d7d35932ceb8a4644877d1b6c0998ef2,
-      type: 3}
+  - levelData: {instanceID: 0}
+  - cellPref: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

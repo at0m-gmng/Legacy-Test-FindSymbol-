@@ -34,7 +34,7 @@ public class cellAnimation : MonoBehaviour
         transform.localScale = normalScale;
 
         if (gameStateContoller.lose)
-            easeInBounceAnimation();
+            EaseInBounceAnimation();
         else if (gameStateContoller.win)
             BounceInAnimation();
     }
@@ -47,7 +47,7 @@ public class cellAnimation : MonoBehaviour
                 .Append(transform.DOScale(.95f, bounceScaleTime))
                 .Append(transform.DOScale(1f, bounceScaleTime));
     }
-    private void easeInBounceAnimation()
+    private void EaseInBounceAnimation()
     {
         sequence = DOTween.Sequence();
         sequence.Append(transform.DOScale(0.0f, scaleTime))

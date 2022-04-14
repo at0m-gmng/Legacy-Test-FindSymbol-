@@ -29,7 +29,7 @@ public class UIScript : MonoBehaviour
     }
 
     //перезапуск сцены при нажатии на кнопку рестарт
-    public void restart()
+    public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

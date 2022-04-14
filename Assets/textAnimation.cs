@@ -12,9 +12,9 @@ public class textAnimation : MonoBehaviour
     private void Start()
     {
         textWithData = GetComponentInChildren<TextMeshProUGUI>();
-        fadeIn();
+        FadeIn();
     }
-    private void fadeIn()
+    private void FadeIn()
     {
         textWithData.DOFade(0, fadeTime).From();
     }
