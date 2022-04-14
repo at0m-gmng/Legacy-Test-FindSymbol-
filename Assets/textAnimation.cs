@@ -9,13 +9,9 @@ public class textAnimation : MonoBehaviour
     [SerializeField] private float fadeTime; // время появления
     private TextMeshProUGUI textWithData; // текстовое поле с данными
 
-    private void Awake()
-    {
-        textWithData = GetComponentInChildren<TextMeshProUGUI>();
-    }
-
     private void Start()
     {
+        textWithData = GetComponentInChildren<TextMeshProUGUI>();
         fadeIn();
     }
     private void fadeIn()

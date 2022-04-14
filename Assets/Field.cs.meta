@@ -3,7 +3,10 @@ guid: 701ed9da92e5c3b43981082ac66b2ff5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - levelData: {fileID: 11400000, guid: 46b7b272d97d082428fec6659758aa0d, type: 2}
+  - cellPref: {fileID: 969124755971596281, guid: d7d35932ceb8a4644877d1b6c0998ef2,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

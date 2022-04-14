@@ -8,7 +8,7 @@ public class gameStateContoller : MonoBehaviour
 {
     [Tooltip("Find symbol on cardDataList")]
     [SerializeField] private TextMeshProUGUI textSymbol; // текстовое поле для вывода данных
-    [SerializeField] private LevelData levelData; // данные о количестве уровней
+    [SerializeField] private levelData levelData; // данные о количестве уровней
     [SerializeField] private GameObject winEffect; // particle effect
     [SerializeField] private Field generationField; // игровое поле со сгенерированными ячейками
 

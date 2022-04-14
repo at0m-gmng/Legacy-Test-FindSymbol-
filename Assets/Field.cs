@@ -9,7 +9,7 @@ using TMPro;
 public class Field : MonoBehaviour
 {
     [Tooltip("Данные об уровне")]
-    [SerializeField] private LevelData levelData; // хранит данные об уровне 
+    [SerializeField] private levelData levelData; // хранит данные об уровне 
 
     [Tooltip("Список наборов данных")]
     public List<spriteData> spriteDataList = new List<spriteData>(); // набор данных spriteData для генерации ячеек
@@ -34,9 +34,9 @@ public class Field : MonoBehaviour
 
     private void Start()
     {
+        rt = GetComponent<RectTransform>();
         CellSize = gameObject.GetComponent<GridLayoutGroup>().cellSize.x;
         Spacing = gameObject.GetComponent<GridLayoutGroup>().spacing.x;
-        rt = GetComponent<RectTransform>();
         FieldSize = levelData.cell_count * current_level; // размер поля равен количеству добавляемых ячеек * на уровень
         randomData();
         GenerateField();
