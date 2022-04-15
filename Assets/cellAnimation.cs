@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class cellAnimation : MonoBehaviour
+public class CellAnimation : MonoBehaviour
 {
     private Vector2 normalScale;
     private Vector2 clickedScale;
@@ -11,16 +11,17 @@ public class cellAnimation : MonoBehaviour
     private Sequence sequence; // переменная для очереди
     [SerializeField] private float scaleTime; // duration для easeInBounce
     [SerializeField] private float bounceScaleTime; // duration для bounce
+    private gameStateContoller gameStateContoller;
 
     private void Awake()
     {
         normalScale = transform.localScale;
         clickedScale = new Vector2(normalScale.x - .05f, normalScale.y - .05f);
-        gameStateContoller gameStateContoller = FindObjectOfType<gameStateContoller>();
     }
 
     private void Start()
     {
+        gameStateContoller = FindObjectOfType<gameStateContoller>();
         BounceInAnimation();
     }
 

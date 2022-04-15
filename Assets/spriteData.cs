@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "spriteData", menuName = "Gameplay/New spriteData")]
 public class SpriteData : ScriptableObject
 {
-    [SerializeField] private List<string> _name = new List<string>();
+    [SerializeField] private List<string> _spriteName = new List<string>();
     [SerializeField] private List<Sprite> _spriteIcon = new List<Sprite>();
-    public List<string> name => this._name;
-    public List<Sprite> spriteIcon => this._spriteIcon;
+    public List<string> SpriteName => this._spriteName;
+    public List<Sprite> SpriteIcon => this._spriteIcon;
 }

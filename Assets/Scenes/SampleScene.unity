@@ -179,7 +179,7 @@ MonoBehaviour:
   numberSpriteData: 1
   FieldSize: 6
   cellPref: {fileID: 969124755971596281, guid: d7d35932ceb8a4644877d1b6c0998ef2, type: 3}
-  current_level: 1
+  currentLevel: 1
   randomList: 00000000
 --- !u!114 &102713973
 MonoBehaviour:

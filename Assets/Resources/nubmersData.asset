@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f51ca73a8c015584a9f2b335fdc9e426, type: 3}
   m_Name: nubmersData
   m_EditorClassIdentifier: Assembly-CSharp::spriteData
-  _name:
+  _spriteName:
   - 1
   - 2
   - 3

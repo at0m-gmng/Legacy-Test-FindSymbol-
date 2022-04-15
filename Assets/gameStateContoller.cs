@@ -23,79 +23,81 @@ public class gameStateContoller : MonoBehaviour
 
     private void Start()
     {
-        //generationField = FindObjectOfType<Field>();
         TextGenerationSymbol();
-        //Debug.Log(generationField);
     }
 
     private void Update()
     {
-        if (stateCheck)
-        {
-            for (int j = 0; j < fieldSymbolsList.Count; j++)
-            {
-                if (findSymbolsList[generationField.current_level - 1] == fieldSymbolsList[j])
-                {
-                    lose = false;
-                    win = true;
-                    //Debug.Log(findSymbolsList[generationField.current_level - 1] + "WIN!" + " You click: " + fieldSymbolsList[j]);
-
-                    if (generationField.current_level < levelData.level_Count)
-                    {
-                        LevelUp();
-                        stateCheck = false;
-                    }
-                    //Debug.Log(generationField.current_level);
-                }
-                else
-                {
-                    lose = true;
-                    win = false;
-                    //Debug.Log(findSymbolsList[generationField.current_level - 1] + "Lose!" + " You click: " + fieldSymbolsList[j]);
-                }
-                if (generationField.current_level == levelData.level_Count && (win || lose))
-                {
-                    Invoke("StopGame", .65f); // запускаем затемнение экрана только после анимации
-                    //stopGame = true;
-                    if (win)
-                        Instantiate(winEffect, gameObject.transform);
-                }
-            }
-            stateCheck = false;
-        }
+        if (!stateCheck)
+            return;
+        CheckState();
     }
 
-    private void StopGame() { stopGame = true; }
+    private void CheckState()
+    {
+        for (int j = 0; j < fieldSymbolsList.Count; j++)
+        {
+            if (findSymbolsList[generationField.currentLevel - 1] == fieldSymbolsList[j])
+            {
+                SetFlags(true, false);
+                //Debug.Log(findSymbolsList[generationField.currentLevel - 1] + "WIN!" + " You click: " + fieldSymbolsList[j]);
+
+                if (generationField.currentLevel < levelData.LevelCount)
+                    LevelUp(); 
+                //Debug.Log(generationField.currentLevel);
+            }
+            else
+                SetFlags(false, true);
+                //Debug.Log(findSymbolsList[generationField.currentLevel - 1] + "Lose!" + " You click: " + fieldSymbolsList[j]);
+
+            if ((generationField.currentLevel == levelData.LevelCount) && win)
+            {
+                if (win)
+                    Instantiate(winEffect, gameObject.transform);
+                StartCoroutine(StopGame());
+            }
+            else if ((generationField.currentLevel == levelData.LevelCount) && lose)
+                StartCoroutine(StopGame());
+        }
+        stateCheck = false;
+    }
+
+    IEnumerator StopGame()
+    {
+        yield return new WaitForSecondsRealtime(.65f);
+        stopGame = true;
+    }
 
     private void LevelUp()
     {
         Instantiate(winEffect, gameObject.transform);
         fieldSymbolsList = new List<string>();
-        generationField.current_level++;
+        generationField.currentLevel++;
         generationField.UpdateField();
         TextGenerationSymbol();
-        FlagsOff();
+        SetFlags(false,false);
     }
 
     public void LoseOrWin(string name)
     {
         fieldSymbolsList.Add(name);
         stateCheck = true;
-        FlagsOff();
+        SetFlags(false,false);
     }
 
-    private void FlagsOff()
+    private void SetFlags(bool isWin, bool isLose)
     {
-        win = false;
-        lose = false;
+        win = isWin;
+        lose = isLose;
         //Debug.Log("stateCheck: " + stateCheck + " lose: " + lose + " <<==>> win: " + win);
     }
 
     private void TextGenerationSymbol()
     {
-        tempSymbol = generationField.spriteDataList[generationField.numberSpriteData].name[generationField.randomList[UnityEngine.Random.Range(0, generationField.FieldSize)]];
-        textSymbol.text = "";
-        textSymbol.text += "Find " + tempSymbol;
+        tempSymbol = generationField.spriteDataList[generationField.numberSpriteData].SpriteName[generationField.randomList[UnityEngine.Random.Range(0, generationField.FieldSize)]];
+        //textSymbol.text = "";
+        //textSymbol.text += "Find " + tempSymbol;
+        textSymbol.text = $"Find {tempSymbol}";
         findSymbolsList.Add(tempSymbol);
 
         for (int i = 0; i < findSymbolsList.Count; i++)

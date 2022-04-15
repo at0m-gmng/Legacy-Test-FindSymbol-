@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 
-public class textAnimation : MonoBehaviour
+public class TextAnimation : MonoBehaviour
 {
     [SerializeField] private float fadeTime; // время появления
     private TextMeshProUGUI textWithData; // текстовое поле с данными

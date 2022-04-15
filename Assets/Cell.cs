@@ -6,17 +6,24 @@ using UnityEngine.UI;
 
 public class Cell : MonoBehaviour
 {
-    private SpriteData spriteData; 
+    //private SpriteData spriteData;
+    private SpriteData spriteData;
+    private gameStateContoller gameStateContoller;
+
+    private void Start()
+    {
+        gameStateContoller = FindObjectOfType<gameStateContoller>();
+    }
     //public List<spriteData> spriteDataList;
     public void Init(SpriteData _spriteData, int value)
     {
         spriteData = _spriteData;
-        GetComponent<Image>().sprite = spriteData.spriteIcon[value];
-        GetComponent<RectTransform>().name = spriteData.name[value];
+        GetComponent<Image>().sprite = spriteData.SpriteIcon[value];
+        GetComponent<RectTransform>().name = spriteData.SpriteName[value];
     }
 
     private void OnMouseDown()
     {
-        FindObjectOfType<gameStateContoller>().LoseOrWin(gameObject.name);
+        gameStateContoller.LoseOrWin(gameObject.name);
     }
 }

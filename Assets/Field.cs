@@ -10,7 +10,7 @@ public class Field : MonoBehaviour
 {
     public LevelData levelData; // хранит данные об уровне 
 
-    public List<SpriteData> spriteDataList ; // набор данных spriteData для генерации ячеек
+    public List<SpriteData> spriteDataList = new List<SpriteData>(); // набор данных spriteData для генерации ячеек
 
     [Tooltip("Текущий набор данных для генерации")]
     public int numberSpriteData = 0; // текущий выбранный spriteData из spriteDataList
@@ -27,15 +27,17 @@ public class Field : MonoBehaviour
     private RectTransform rt;
 
     private GameObject[] field;
-    [SerializeField] public int current_level = 1; // текущий уровень
-    public List<int> randomList ; // набор данных для генерации, отсортированный в случайном порядке
+    public int currentLevel = 1; // текущий уровень
+    public List<int> randomList = new List<int>(); // набор данных для генерации, отсортированный в случайном порядке
+
+    System.Random rnd = new System.Random();
 
     private void Start()
     {
         rt = GetComponent<RectTransform>();
         CellSize = gameObject.GetComponent<GridLayoutGroup>().cellSize.x;
         Spacing = gameObject.GetComponent<GridLayoutGroup>().spacing.x;
-        FieldSize = levelData.cell_count * current_level; // размер поля равен количеству добавляемых ячеек * на уровень
+        FieldSize = levelData.CellCount * currentLevel; // размер поля равен количеству добавляемых ячеек * на уровень
         RandomData();
         GenerateField();
     }
@@ -53,23 +55,19 @@ public class Field : MonoBehaviour
     // пересоздание поля с повышением уровня
     public void UpdateField()
     {
-            FieldSize = levelData.cell_count * current_level;
+            FieldSize = levelData.CellCount * currentLevel;
             ClearField(); 
             RandomData();
             RandomWithoutDuplicate();
-
-            Debug.Log(JsonUtility.ToJson(randomList));
-            
-            Debug.Log(randomList);
             CreateField();
     }
 
     // очищаем поле перед созданием нового
     private void ClearField() 
     {
-        foreach (GameObject field in field)
+        for (int i = 0; i < field.Length; i++)
         {
-            Destroy(field.gameObject);
+            Destroy(field[i].gameObject);
         }
     }
 
@@ -77,8 +75,8 @@ public class Field : MonoBehaviour
     private void CreateField()
     {
         field = new GameObject[FieldSize]; //инициализируем массив
-        float fieldWidth = FieldSize / current_level * (CellSize + Spacing) + Spacing; // считаем ширину поля
-        float fieldHight = current_level * (CellSize + Spacing) + Spacing; // считаем высоту поля
+        float fieldWidth = FieldSize / currentLevel * (CellSize + Spacing) + Spacing; // считаем ширину поля
+        float fieldHight = currentLevel * (CellSize + Spacing) + Spacing; // считаем высоту поля
 
         rt.sizeDelta = new Vector2(fieldWidth, fieldHight); // устанавливаем размер на canvas
         //float startX = -(fieldWidth / 2) + (CellSize / 2) + Spacing/2; // нач.позиции для первой клетки
@@ -92,7 +90,7 @@ public class Field : MonoBehaviour
             var cell = Instantiate(cellPref, transform, false);
 
             //спрайты с данным именем развёрнуты, разворачиваем их
-            if ((spriteDataList[numberSpriteData].name[randomList[x]] == "7") || (spriteDataList[numberSpriteData].name[randomList[x]] == "8"))
+            if ((spriteDataList[numberSpriteData].SpriteName[randomList[x]] == "7") || (spriteDataList[numberSpriteData].SpriteName[randomList[x]] == "8"))
                 cell.transform.Rotate(0, 0, -90);
             else
                 cell.transform.Rotate(0, 0, 0);
@@ -113,13 +111,11 @@ public class Field : MonoBehaviour
     //распологаем данные в случайном порядке
     private List<int> RandomWithoutDuplicate()
     {
-        var rnd = new System.Random();
-        randomList = Enumerable.Range(0, spriteDataList[numberSpriteData].spriteIcon.Count).OrderBy(x => rnd.Next()).Take(spriteDataList[numberSpriteData].spriteIcon.Count).ToList();
+        randomList = Enumerable.Range(0, spriteDataList[numberSpriteData].SpriteIcon.Count).OrderBy(x => rnd.Next()).Take(spriteDataList[numberSpriteData].SpriteIcon.Count).ToList();
 
         //for (int i = 0; i < randomList.Count; i++)
         //    Debug.Log(randomList[i]);
 
         return randomList;
     }
-    
 }
